@@ -4,6 +4,8 @@ defmodule BanyanAPI.Client do
   alias Neuron.Config
   alias PxUAuth0.AccessToken
 
+  @default_access_token_impl &AccessToken.fetch/0
+
   def query(query, params) do
     Config.set(url: Application.get_env(:banyan_api, :graphql_endpoint, ""))
     Config.set(headers: headers())
@@ -13,15 +15,9 @@ defmodule BanyanAPI.Client do
     |> log_and_return()
   end
 
-  if Mix.env() == :dev do
-    defp headers do
-      [Authentication: "Bearer "]
-    end
-  else
-    defp headers do
-      {:ok, auth0_token} = AccessToken.fetch()
-      [Authentication: "Bearer #{auth0_token}"]
-    end
+  defp headers do
+    {:ok, auth0_token} = access_token_impl().()
+    [Authentication: "Bearer #{auth0_token}"]
   end
 
   defp log_and_return({:ok, %{body: %{"errors" => errors}}} = response) do
@@ -43,4 +39,7 @@ defmodule BanyanAPI.Client do
     Logger.info("#{__MODULE__} call errored: #{inspect(error)}")
     response
   end
+
+  defp access_token_impl,
+    do: Application.get_env(:banyan_api, :access_token_impl, @default_access_token_impl)
 end
