@@ -22,7 +22,8 @@ defmodule BanyanApi.MixProject do
   defp deps do
     [
       {:neuron, "~> 1.2.0"},
-      {:pxu_auth0, github: "pixelunion/ex-pxu-auth0", tag: "v0.1.8"}
+      {:pxu_auth0, github: "pixelunion/ex-pxu-auth0", tag: "v0.1.8"},
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
   end
 end
