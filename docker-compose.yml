@@ -1,0 +1,8 @@
+version: '3.2'
+services:
+  travis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
