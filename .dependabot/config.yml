@@ -1,0 +1,6 @@
+version: 1
+
+update_configs:
+  - package_manager: "elixir:hex"
+    directory: "/hex/helpers"
+    update_schedule: "live"
