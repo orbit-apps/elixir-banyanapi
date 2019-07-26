@@ -48,7 +48,8 @@ defmodule BanyanAPI.Shop do
     } =
       Map.merge(
         @default_settings,
-        settings
+        settings,
+        fn _, v1, v2 -> if v2 == nil, do: v1, else: v2 end
       )
 
     Client.query(
