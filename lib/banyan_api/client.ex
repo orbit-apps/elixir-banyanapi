@@ -26,7 +26,7 @@ defmodule BanyanAPI.Client do
       |> Enum.map(&Map.get(&1, "message"))
       |> Enum.join(" ")
 
-    Logger.info("#{__MODULE__} call errored: #{error_string}")
+    Logger.error("#{__MODULE__} call errored: #{error_string}")
     response
   end
 
@@ -36,7 +36,7 @@ defmodule BanyanAPI.Client do
   end
 
   defp log_and_return({_, error} = response) do
-    Logger.info("#{__MODULE__} call errored: #{inspect(error)}")
+    Logger.error("#{__MODULE__} call errored: #{inspect(error)}")
     response
   end
 
