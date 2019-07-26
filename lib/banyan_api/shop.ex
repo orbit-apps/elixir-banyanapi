@@ -48,8 +48,7 @@ defmodule BanyanAPI.Shop do
     } =
       Map.merge(
         @default_settings,
-        settings,
-        fn _, v1, v2 -> if v2 == nil, do: v1, else: v2 end
+        remove_nil_values(settings)
       )
 
     Client.query(
@@ -133,4 +132,10 @@ defmodule BanyanAPI.Shop do
     do:
       {:error,
        "Banyan.Shop.update called with invalid parameters, received #{Kernel.inspect(args)}"}
+
+  defp remove_nil_values(settings) do
+    settings
+    |> Enum.map(fn {k, v} -> if v == nil, do: {k, ""}, else: {k, v} end)
+    |> Enum.into(%{})
+  end
 end
