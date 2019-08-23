@@ -133,6 +133,8 @@ defmodule BanyanAPI.Shop do
       {:error,
        "Banyan.Shop.update called with invalid parameters, received #{Kernel.inspect(args)}"}
 
+  defp remove_nil_values(nil), do: %{}
+
   defp remove_nil_values(settings) do
     settings
     |> Enum.map(fn {k, v} -> if v == nil, do: {k, ""}, else: {k, v} end)
