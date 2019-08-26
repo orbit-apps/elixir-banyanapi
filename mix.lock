@@ -14,7 +14,7 @@
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], [], "hexpm"},
   "mime": {:hex, :mime, "1.3.1", "30ce04ab3175b6ad0bdce0035cba77bba68b813d523d1aac73d9781b4d193cf8", [:mix], [], "hexpm"},
   "mimerl": {:hex, :mimerl, "1.2.0", "67e2d3f571088d5cfd3e550c383094b47159f3eee8ffa08e64106cdf5e981be3", [:rebar3], [], "hexpm"},
-  "neuron": {:hex, :neuron, "2.0.0", "314323a4074340022abb62d8e1079008b5357e11dfbe7b3b21948db741275331", [:mix], [{:httpoison, "~> 1.0", [hex: :httpoison, repo: "hexpm", optional: false]}, {:poison, "~> 4.0", [hex: :poison, repo: "hexpm", optional: false]}], "hexpm"},
+  "neuron": {:hex, :neuron, "3.0.0", "c7f19dae9222ff4301cbd644cb1b8513a3ebd1b7b2f30b35e6ee0b9d7756c0fd", [:mix], [{:httpoison, "~> 1.0", [hex: :httpoison, repo: "hexpm", optional: false]}, {:jason, "~> 1.1", [hex: :jason, repo: "hexpm", optional: true]}, {:poison, "~> 4.0", [hex: :poison, repo: "hexpm", optional: false]}], "hexpm"},
   "oauth2": {:hex, :oauth2, "0.9.4", "632e8e8826a45e33ac2ea5ac66dcc019ba6bb5a0d2ba77e342d33e3b7b252c6e", [:mix], [{:hackney, "~> 1.7", [hex: :hackney, repo: "hexpm", optional: false]}], "hexpm"},
   "parse_trans": {:hex, :parse_trans, "3.3.0", "09765507a3c7590a784615cfd421d101aec25098d50b89d7aa1d66646bc571c1", [:rebar3], [], "hexpm"},
   "plug": {:hex, :plug, "1.8.2", "0bcce1daa420f189a6491f3940cc77ea7fb1919761175c9c3b59800d897440fc", [:mix], [{:mime, "~> 1.0", [hex: :mime, repo: "hexpm", optional: false]}, {:plug_crypto, "~> 1.0", [hex: :plug_crypto, repo: "hexpm", optional: false]}, {:telemetry, "~> 0.4", [hex: :telemetry, repo: "hexpm", optional: true]}], "hexpm"},
