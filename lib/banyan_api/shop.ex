@@ -98,7 +98,6 @@ defmodule BanyanAPI.Shop do
           updateAuthToken(token: $token, shopName: $shop_name, code: $code, appName: $app_name) {
             shopName
           }
-          appInstall(appName: $app_name, shop_myshopify_domain: $myshopify_domain ) { appName }
         }
       """,
       %{
