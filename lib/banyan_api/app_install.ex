@@ -16,7 +16,7 @@ defmodule BanyanAPI.AppInstall do
       """,
       %{
         app_name: Application.get_env(:banyan_api, :app_name, ""),
-        shop: shop
+        shop: format_shop_params(shop)
       }
     )
   end
@@ -37,7 +37,7 @@ defmodule BanyanAPI.AppInstall do
       """,
       %{
         app_name: Application.get_env(:banyan_api, :app_name, ""),
-        shop: shop,
+        shop: format_shop_params(shop),
         status: status
       }
     )
@@ -58,8 +58,15 @@ defmodule BanyanAPI.AppInstall do
       """,
       %{
         app_name: Application.get_env(:banyan_api, :app_name, ""),
-        shop: shop
+        shop: format_shop_params(shop)
       }
     )
   end
+
+  @spec format_shop_params(map()) :: map()
+  defp format_shop_params(%{settings: settings}),
+    do: %{
+      email: settings["email"],
+      myshopify_domain: settings["myshopify_domain"]
+    }
 end
