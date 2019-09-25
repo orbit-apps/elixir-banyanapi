@@ -69,4 +69,10 @@ defmodule BanyanAPI.AppInstall do
       email: settings["email"],
       myshopify_domain: settings["myshopify_domain"]
     }
+
+  defp format_shop_params(%{"settings" => settings}),
+    do: %{
+      email: settings["email"],
+      myshopify_domain: settings["myshopify_domain"]
+    }
 end
