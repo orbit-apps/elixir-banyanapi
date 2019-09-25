@@ -64,7 +64,8 @@ defmodule BanyanAPI.AppInstall do
   end
 
   @spec format_shop_params(map()) :: map()
-  # WARNING the only supported keys right now are settings, this func needs to handle both strings and atoms as keys in the map.
+  # WARNING the only supported keys right now are settings, this func needs to handle
+  #         both strings and atoms as keys in the map.
   defp format_shop_params(%{settings: settings}),
     do: %{
       email: settings["email"],
