@@ -1,34 +1,34 @@
 defmodule BanyanAPI.AppInstall do
   alias BanyanAPI.Client
 
-  @spec create(String.t()) :: {:ok, %Neuron.Response{}} | {:error, any()}
-  def create(myshopify_domain) do
+  @spec create(map()) :: {:ok, %Neuron.Response{}} | {:error, any()}
+  def create(shop) do
     Client.query(
       """
-      mutation InstallApp($shop_myshopify_domain: String!, $app_name: String!) {
+      mutation InstallApp($app_name: String!, $shop: AppShop!) {
         appInstall(
-          shop_myshopify_domain: $shop_myshopify_domain,
-          app_name: $app_name
+          app_name: $app_name,
+          shop: $shop
       ) {
           app_name
         }
       }
       """,
       %{
-        shop_myshopify_domain: myshopify_domain,
-        app_name: Application.get_env(:banyan_api, :app_name, "")
+        app_name: Application.get_env(:banyan_api, :app_name, ""),
+        shop: format_shop_params(shop)
       }
     )
   end
 
-  @spec update(String.t(), String.t()) :: {:ok, %Neuron.Response{}} | {:error, any()}
-  def update(myshopify_domain, status) do
+  @spec update(map(), String.t()) :: {:ok, %Neuron.Response{}} | {:error, any()}
+  def update(shop, status) do
     Client.query(
       """
-      mutation updateAppInstall($shop_myshopify_domain: String!, $app_name: String!, $status: String!) {
+      mutation updateAppInstall($app_name: String!, $shop: AppShop!, $status: String!) {
         appInstallUpdate(
-          shop_myshopify_domain: $shop_myshopify_domain,
           app_name: $app_name,
+          shop: $shop,
           status: $status
       ) {
           app_name
@@ -36,30 +36,42 @@ defmodule BanyanAPI.AppInstall do
       }
       """,
       %{
-        shop_myshopify_domain: myshopify_domain,
         app_name: Application.get_env(:banyan_api, :app_name, ""),
+        shop: format_shop_params(shop),
         status: status
       }
     )
   end
 
-  @spec delete(String.t()) :: {:ok, %Neuron.Response{}} | {:error, any()}
-  def delete(myshopify_domain) do
+  @spec delete(map()) :: {:ok, %Neuron.Response{}} | {:error, any()}
+  def delete(shop) do
     Client.query(
       """
-      mutation UninstallApp($shop_myshopify_domain: String!, $app_name: String!) {
+      mutation UninstallApp($app_name: String!, $shop: AppShop!) {
         appUninstall(
-          shop_myshopify_domain: $shop_myshopify_domain,
-          app_name: $app_name
+          app_name: $app_name,
+          shop: $shop
       ) {
           app_name
         }
       }
       """,
       %{
-        shop_myshopify_domain: myshopify_domain,
-        app_name: Application.get_env(:banyan_api, :app_name, "")
+        app_name: Application.get_env(:banyan_api, :app_name, ""),
+        shop: format_shop_params(shop)
       }
     )
   end
+
+  @spec format_shop_params(map()) :: map()
+  # WARNING the only supported keys right now are settings, this func needs to handle
+  #         both strings and atoms as keys in the map.
+  defp format_shop_params(%{settings: settings}),
+    do: %{
+      email: settings["email"],
+      myshopify_domain: settings["myshopify_domain"]
+    }
+
+  defp format_shop_params(%{"settings" => settings}),
+    do: format_shop_params(%{settings: settings})
 end
