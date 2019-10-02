@@ -7,12 +7,14 @@ defmodule BanyanAPI.StorefrontEvent do
       """
       mutation TrackStorefrontEvent(
         $app_name: String!,
+        $email: String!,
         $shop_myshopify_domain: String!,
         $shopify_order: String,
         $type: String!
       ) {
         trackStorefrontEvent(
           app_name: $app_name,
+          email: $email,
           shop_myshopify_domain: $shop_myshopify_domain,
           shopify_order: $shopify_order,
           type: $type
@@ -23,6 +25,7 @@ defmodule BanyanAPI.StorefrontEvent do
       """,
       %{
         app_name: Application.get_env(:banyan_api, :app_name, ""),
+        email: shop.settings["email"],
         shop_myshopify_domain: shop.settings["myshopify_domain"],
         shopify_order: Jason.encode!(shopify_order),
         type: type
