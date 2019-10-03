@@ -1,14 +1,16 @@
 defmodule BanyanAPI.Anonymizers.ShopifyAddress do
-  @address_fields_omit [
-    "first_name",
-    "last_name",
-    "name",
-    "phone",
-    "address1",
-    "address2"
+  @valid_address_fields [
+    "city",
+    "country_code",
+    "country_name",
+    "province",
+    "zip"
   ]
 
   @spec clean(any()) :: map()
-  def clean(address) when is_map(address), do: Map.drop(address, @address_fields_omit)
+  def clean(address) when is_map(address), do: Map.take(address, @valid_address_fields)
   def clean(_), do: %{}
+
+  @spec address_fields() :: list(String.t())
+  def address_fields, do: @valid_address_fields
 end

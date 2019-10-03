@@ -37,30 +37,15 @@ defmodule BanyanAPI.AnonymizersTest do
     "fulfillments" => [%{"id" => 1}, %{"id" => 2}]
   }
 
-  @cleaned_address_fields [
-    "first_name",
-    "last_name",
-    "name",
-    "phone",
-    "address1",
-    "address2"
-  ]
-
-  @cleaned_order_fields ["email", "contact_email", "fulfillments"]
-
-  def assert_clean_address(address) do
-    Enum.each(@cleaned_address_fields, fn field ->
-      assert not Map.has_key?(address, field)
-    end)
-
-    assert Map.has_key?(address, "kept_field")
-  end
-
   describe "clean_address" do
     test "cleans all fields" do
       cleaned_address = ShopifyAddress.clean(@address)
 
-      assert_clean_address(cleaned_address)
+      address_keys = Map.keys(@address) -- ShopifyAddress.address_fields()
+
+      Enum.each(address_keys, fn field ->
+        assert not Map.has_key?(cleaned_address, field)
+      end)
     end
   end
 
@@ -68,19 +53,11 @@ defmodule BanyanAPI.AnonymizersTest do
     test "cleans all fields" do
       cleaned_order = ShopifyOrder.clean(@order)
 
-      Enum.each(@cleaned_order_fields, fn field ->
+      order_keys = Map.keys(@order) -- ShopifyOrder.order_fields()
+
+      Enum.each(order_keys, fn field ->
         assert not Map.has_key?(cleaned_order, field)
       end)
-
-      cleaned_order
-      |> Map.get("billing_address")
-      |> assert_clean_address()
-
-      cleaned_order
-      |> Map.get("shipping_address")
-      |> assert_clean_address()
-
-      assert Map.has_key?(cleaned_order, "kept_field")
     end
 
     test "customer only consists of id" do
