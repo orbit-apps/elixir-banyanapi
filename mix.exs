@@ -28,7 +28,7 @@ defmodule BanyanApi.MixProject do
       {:dialyxir, "~> 1.0.0-rc.4", only: :dev, runtime: false},
       # everything else
       {:neuron, "~> 3.0.1"},
-      {:pxu_auth0, github: "pixelunion/ex-pxu-auth0", tag: "v0.1.8"}
+      {:pxu_auth0, github: "pixelunion/ex-pxu-auth0", tag: "v0.2.0"}
     ]
   end
 end
