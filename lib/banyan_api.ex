@@ -1,18 +1,5 @@
-defmodule BanyanApi do
+defmodule BanyanAPI do
   @moduledoc """
-  Documentation for BanyanApi.
+  Documentation for BanyanAPI.
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> BanyanApi.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
