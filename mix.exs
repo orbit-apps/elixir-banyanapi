@@ -1,4 +1,4 @@
-defmodule BanyanApi.MixProject do
+defmodule BanyanAPI.MixProject do
   use Mix.Project
 
   @version "0.3.6"
