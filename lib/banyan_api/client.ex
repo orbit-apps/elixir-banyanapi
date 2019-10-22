@@ -5,6 +5,7 @@ defmodule BanyanAPI.Client do
   alias Neuron.Config
   alias PxUAuth0.AccessToken
 
+  # Neuron specs are screwy, so this needed to match against the HTTPoison Error
   @dialyzer {:nowarn_function, log_and_return!: 1}
   @default_access_token_impl &AccessToken.fetch/0
 
