@@ -1,9 +1,11 @@
 defmodule BanyanAPI.Client do
   require Logger
 
+  alias BanyanAPI.TimeoutError
   alias Neuron.Config
   alias PxUAuth0.AccessToken
 
+  @dialyzer {:nowarn_function, log_and_return!: 1}
   @default_access_token_impl &AccessToken.fetch/0
 
   def query(query, params) do
@@ -12,7 +14,7 @@ defmodule BanyanAPI.Client do
 
     query
     |> Neuron.query(params)
-    |> log_and_return()
+    |> log_and_return!()
   end
 
   defp headers do
@@ -20,7 +22,7 @@ defmodule BanyanAPI.Client do
     [Authentication: "Bearer #{auth0_token}"]
   end
 
-  defp log_and_return({:ok, %{body: %{"errors" => errors}}} = response) do
+  defp log_and_return!({:ok, %{body: %{"errors" => errors}}} = response) do
     error_string =
       errors
       |> Enum.map(&Map.get(&1, "message"))
@@ -30,12 +32,14 @@ defmodule BanyanAPI.Client do
     response
   end
 
-  defp log_and_return({:ok, _} = response) do
+  defp log_and_return!({:ok, _} = response) do
     Logger.debug("#{__MODULE__} successfully called")
     response
   end
 
-  defp log_and_return({_, error} = response) do
+  defp log_and_return!({:error, %HTTPoison.Error{reason: :timeout}}), do: raise(TimeoutError)
+
+  defp log_and_return!({_, error} = response) do
     Logger.error("#{__MODULE__} call errored: #{inspect(error)}")
     response
   end
