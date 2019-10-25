@@ -2,7 +2,7 @@ defmodule BanyanAPI.StorefrontEvent do
   alias BanyanAPI.Client
 
   @spec track(map(), String.t(), map()) :: {:ok, %Neuron.Response{}} | {:error, any()}
-  def track(shop, type, %{shopify_order: shopify_order}) do
+  def track(shop, type, %{shopify_order: shopify_order, recipient_email: recipient_email}) do
     Client.query(
       """
       mutation TrackStorefrontEvent(
@@ -10,6 +10,7 @@ defmodule BanyanAPI.StorefrontEvent do
         $email: String!,
         $shop_myshopify_domain: String!,
         $shopify_order: String,
+        $recipient_email: String,
         $type: String!
       ) {
         trackStorefrontEvent(
@@ -17,6 +18,7 @@ defmodule BanyanAPI.StorefrontEvent do
           email: $email,
           shop_myshopify_domain: $shop_myshopify_domain,
           shopify_order: $shopify_order,
+          recipient_email: $recipient_email,
           type: $type
         ) {
           app_name
@@ -28,6 +30,7 @@ defmodule BanyanAPI.StorefrontEvent do
         email: shop.settings["email"],
         shop_myshopify_domain: shop.settings["myshopify_domain"],
         shopify_order: Jason.encode!(shopify_order),
+        recipient_email: recipient_email,
         type: type
       }
     )
