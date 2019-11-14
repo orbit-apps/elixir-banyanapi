@@ -27,6 +27,7 @@ defmodule BanyanAPI.Shop do
           {:ok, %Neuron.Response{}} | {:error, any()}
   def update(%{
         access_token: token,
+        created_date: shop_install_at,
         settings: settings
       }) do
     %{
@@ -57,7 +58,7 @@ defmodule BanyanAPI.Shop do
 
     Client.query(
       """
-        mutation CreateShop(
+        mutation UpdateShop(
           $domain: String!,
           $shop_name: String!,
           $token: String!,
@@ -71,6 +72,7 @@ defmodule BanyanAPI.Shop do
           $customer_email: String!,
           $email: String!,
           $enabled_presentment_currencies: [String],
+          $install_date: String!,
           $shopify_id: String!,
           $myshopify_domain: String!,
           $name: String!,
@@ -84,22 +86,24 @@ defmodule BanyanAPI.Shop do
         ) {
           updateShop(
             address1: $address1,
+            app_name: $app_name,
             city: $city,
             country: $country,
             created_at: $created_at,
             currency: $currency,
             customer_email: $customer_email,
-            enabled_presentment_currencies: $enabled_presentment_currencies,
             domain: $domain,
-            myshopify_domain: $myshopify_domain,
             email: $email,
-            shopify_id: $shopify_id,
+            enabled_presentment_currencies: $enabled_presentment_currencies,
+            installed_at: $install_date,
+            myshopify_domain: $myshopify_domain,
             name: $name,
             phone: $phone,
             plan_display_name: $plan_display_name,
             plan_name: $plan_name,
             province: $province,
             shop_owner: $shop_owner,
+            shopify_id: $shopify_id,
             source: $source,
             zip: $zip
           ) { domain }
@@ -117,18 +121,19 @@ defmodule BanyanAPI.Shop do
         created_at: created_at,
         currency: currency,
         customer_email: customer_email,
-        enabled_presentment_currencies: enabled_presentment_currencies,
         domain: domain,
         email: email,
-        shopify_id: shopify_id,
+        enabled_presentment_currencies: enabled_presentment_currencies,
+        installed_at: shop_install_at,
         myshopify_domain: myshopify_domain,
         name: name,
-        shop_name: myshopify_domain,
         phone: phone,
         plan_display_name: plan_display_name,
         plan_name: plan_name,
         province: province,
+        shop_name: myshopify_domain,
         shop_owner: shop_owner,
+        shopify_id: shopify_id,
         # used to indicate who refered the merchant, sometimes null
         source: source || "",
         token: token,
@@ -137,10 +142,9 @@ defmodule BanyanAPI.Shop do
     )
   end
 
-  def update(args),
-    do:
-      {:error,
-       "Banyan.Shop.update called with invalid parameters, received #{Kernel.inspect(args)}"}
+  def update(args) do
+    {:error, "Banyan.Shop.update called with invalid parameters, received #{inspect(args)}"}
+  end
 
   defp remove_nil_values(nil), do: %{}
 
