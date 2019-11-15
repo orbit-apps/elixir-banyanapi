@@ -55,6 +55,7 @@ defmodule BanyanAPI.Shop do
         @default_settings,
         remove_nil_values(settings)
       )
+    {:ok, created_datetime, _offset} = DateTime.from_iso8601(created_at)
 
     Client.query(
       """
@@ -118,7 +119,7 @@ defmodule BanyanAPI.Shop do
         city: city,
         code: "",
         country: country,
-        created_at: created_at,
+        created_at: created_datetime,
         currency: currency,
         customer_email: customer_email,
         domain: domain,
