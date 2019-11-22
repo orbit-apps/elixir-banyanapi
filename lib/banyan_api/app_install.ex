@@ -2,6 +2,8 @@ defmodule BanyanAPI.AppInstall do
   alias BanyanAPI.Client
 
   @spec create(map()) :: {:ok, %Neuron.Response{}} | {:error, any()}
+  def create(nil), do: raise(ArgumentError, message: "Invalid shop value: nil")
+
   def create(shop) do
     Client.query(
       """
@@ -22,6 +24,8 @@ defmodule BanyanAPI.AppInstall do
   end
 
   @spec update(map(), String.t()) :: {:ok, %Neuron.Response{}} | {:error, any()}
+  def update(nil, _), do: raise(ArgumentError, message: "Invalid shop value: nil")
+
   def update(shop, status) do
     Client.query(
       """
