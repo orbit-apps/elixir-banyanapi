@@ -21,14 +21,15 @@ defmodule BanyanAPI.Client do
     [Authentication: "Bearer #{auth0_token}"]
   end
 
-  defp log_and_return!({:ok, %{body: %{"errors" => errors}}} = response) do
+  defp log_and_return!({:ok, %{body: %{"errors" => errors}} = response}) do
     error_string =
       errors
       |> Enum.map(&Map.get(&1, "message"))
       |> Enum.join(" ")
 
     Logger.error("#{__MODULE__} call errored: #{error_string}")
-    response
+
+    {:error, response}
   end
 
   defp log_and_return!({:ok, _} = response) do
