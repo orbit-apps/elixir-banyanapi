@@ -7,6 +7,7 @@ defmodule BanyanAPI.Client do
 
   @default_access_token_impl &AccessToken.fetch/0
 
+  @spec query(String.t(), map()) :: {:ok, map()} | {:error, any()}
   def query(query, params) do
     Config.set(url: Application.get_env(:banyan_api, :graphql_endpoint, ""))
     Config.set(headers: headers())
