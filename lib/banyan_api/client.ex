@@ -7,6 +7,7 @@ defmodule BanyanAPI.Client do
 
   @default_access_token_impl &AccessToken.fetch/0
 
+  @spec query(String.t(), map()) :: {:ok, map()} | {:error, any()}
   def query(query, params) do
     Config.set(url: Application.get_env(:banyan_api, :graphql_endpoint, ""))
     Config.set(headers: headers())
@@ -21,14 +22,15 @@ defmodule BanyanAPI.Client do
     [Authentication: "Bearer #{auth0_token}"]
   end
 
-  defp log_and_return!({:ok, %{body: %{"errors" => errors}}} = response) do
+  defp log_and_return!({:ok, %{body: %{"errors" => errors}} = response}) do
     error_string =
       errors
       |> Enum.map(&Map.get(&1, "message"))
       |> Enum.join(" ")
 
     Logger.error("#{__MODULE__} call errored: #{error_string}")
-    response
+
+    {:error, response}
   end
 
   defp log_and_return!({:ok, _} = response) do
