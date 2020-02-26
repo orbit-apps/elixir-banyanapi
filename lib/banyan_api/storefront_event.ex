@@ -47,7 +47,7 @@ defmodule BanyanAPI.StorefrontEvent do
         $shopify_order: String,
         $checkout_source: String,
       ) {
-        trackOrderCreate(
+        trackStorefrontEvent(
           app_name: $app_name,
           email: $email,
           shop_myshopify_domain: $shop_myshopify_domain,
