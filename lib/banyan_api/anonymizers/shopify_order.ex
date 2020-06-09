@@ -99,6 +99,7 @@ defmodule BanyanAPI.Anonymizers.ShopifyOrder do
     "currency",
     "customer",
     "discount_applications",
+    "discount_codes",
     "financial_status",
     "id",
     "line_items",
