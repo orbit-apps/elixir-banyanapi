@@ -1,10 +1,12 @@
 defmodule BanyanAPI.AppInstall do
   alias BanyanAPI.Client
 
-  @spec create(map()) :: {:ok, %Neuron.Response{}} | {:error, any()}
-  def create(nil), do: raise(ArgumentError, message: "Invalid shop value: nil")
+  @spec create(map() | nil, map()) :: {:ok, %Neuron.Response{}} | {:error, any()}
+  def create(shop, metadata \\ %{})
 
-  def create(shop) do
+  def create(nil, _), do: raise(ArgumentError, message: "Invalid shop value: nil")
+
+  def create(shop, metadata) do
     Client.query(
       """
       mutation InstallApp($app_name: String!, $shop: AppShop!) {
@@ -18,15 +20,16 @@ defmodule BanyanAPI.AppInstall do
       """,
       %{
         app_name: Application.get_env(:banyan_api, :app_name, ""),
-        shop: format_shop_params(shop)
+        shop: format_shop_params(shop, metadata)
       }
     )
   end
 
-  @spec update(map(), String.t()) :: {:ok, %Neuron.Response{}} | {:error, any()}
-  def update(nil, _), do: raise(ArgumentError, message: "Invalid shop value: nil")
+  @spec update(map() | nil, String.t(), map()) :: {:ok, %Neuron.Response{}} | {:error, any()}
+  def update(shop, status, metadata \\ %{})
+  def update(nil, _, _), do: raise(ArgumentError, message: "Invalid shop value: nil")
 
-  def update(shop, status) do
+  def update(shop, status, metadata) do
     Client.query(
       """
       mutation updateAppInstall($app_name: String!, $shop: AppShop!, $status: String!) {
@@ -41,7 +44,7 @@ defmodule BanyanAPI.AppInstall do
       """,
       %{
         app_name: Application.get_env(:banyan_api, :app_name, ""),
-        shop: format_shop_params(shop),
+        shop: format_shop_params(shop, metadata),
         status: status
       }
     )
@@ -67,15 +70,20 @@ defmodule BanyanAPI.AppInstall do
     )
   end
 
-  @spec format_shop_params(map()) :: map()
-  # WARNING the only supported keys right now are settings, this func needs to handle
-  #         both strings and atoms as keys in the map.
-  defp format_shop_params(%{settings: settings}),
+  @spec format_shop_params(map(), map()) :: map()
+  # WARNING the only supported keys right now are:
+  # - settings from the Shop map
+  # - billing_plan_name from the metadata map
+  # Also, this func needs to handle both strings and atoms as keys in the Shop map.
+  defp format_shop_params(shop, metadata \\ %{})
+
+  defp format_shop_params(%{settings: settings}, metadata),
     do: %{
       email: settings["email"],
-      myshopify_domain: settings["myshopify_domain"]
+      myshopify_domain: settings["myshopify_domain"],
+      billing_plan_name: Map.get(metadata, :billing_plan_name)
     }
 
-  defp format_shop_params(%{"settings" => settings}),
-    do: format_shop_params(%{settings: settings})
+  defp format_shop_params(%{"settings" => settings}, metadata),
+    do: format_shop_params(%{settings: settings}, metadata)
 end
