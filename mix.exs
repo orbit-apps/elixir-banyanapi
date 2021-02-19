@@ -29,7 +29,7 @@ defmodule BanyanAPI.MixProject do
     [
       # Test and Dev
       {:credo, "~> 1.5.2", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
       # everything else
       {:neuron, "~> 5.0.0"},
       {:pxu_auth0, github: "pixelunion/ex-pxu-auth0", tag: "v0.2.2"}
