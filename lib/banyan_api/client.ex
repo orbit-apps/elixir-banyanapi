@@ -1,9 +1,9 @@
 defmodule BanyanAPI.Client do
-  require Logger
-
   alias BanyanAPI.TimeoutError
   alias Neuron.Config
   alias PxUAuth0.AccessToken
+
+  require Logger
 
   @default_access_token_impl &AccessToken.fetch/0
 
