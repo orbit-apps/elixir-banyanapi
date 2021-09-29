@@ -30,6 +30,28 @@ jobs:
         run: mix credo --strict
       - name: Check Formatting
         run: mix format --check-formatted
+      - name: Newline linter
+        run: |
+          set -e; \
+          code=0; \
+          for f in $( find . -type f \( -iname '*.ex' -o -iname '*.eex' -o -iname '*.exs' \) | grep -v "^./deps/" ); do \
+              if [ "$(tail -c 1 $f)" != "$(printf '\n')" ]; then \
+                  echo "$f does not end with a newline"; \
+                  code=1; \
+              fi; \
+          done; \
+          exit $code
+      - name: Multi newline linter
+        run: |
+          set -e; \
+          code=0; \
+          for f in $( find . -type f \( -iname '*.ex' -o -iname '*.eex' -o -iname '*.exs' \) | grep -v "^./deps/" ); do \
+              if [ "$(tail -c 2 $f)" == "$(printf '\n\n')" ]; then \
+                  echo "$f has trailing newlines"; \
+                  code=1; \
+              fi; \
+          done; \
+          exit $code
       - name: Run Tests
         run: mix do compile --warnings-as-errors, test
       - name: Dialyzer
