@@ -1,13 +1,13 @@
 defmodule BanyanAPI.MixProject do
   use Mix.Project
 
-  @version "0.6.3"
+  @version "0.7.0"
 
   def project do
     [
       app: :banyan_api,
       version: @version,
-      elixir: "~> 1.10",
+      elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       dialyzer: [
