@@ -1,7 +1,7 @@
 defmodule BanyanAPI.MixProject do
   use Mix.Project
 
-  @version "0.7.0"
+  @version "0.7.1"
 
   def project do
     [
@@ -32,7 +32,7 @@ defmodule BanyanAPI.MixProject do
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       # everything else
       {:neuron, "~> 5.0.0"},
-      {:pxu_auth0, github: "pixelunion/ex-pxu-auth0", tag: "v0.4.0"}
+      {:pxu_auth0, github: "pixelunion-apps/ex-pxu-auth0", tag: "v0.4.0"}
     ]
   end
 end
