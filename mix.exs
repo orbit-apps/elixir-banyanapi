@@ -28,8 +28,8 @@ defmodule BanyanAPI.MixProject do
   defp deps do
     [
       # Test and Dev
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.2", only: [:dev, :test], runtime: false},
       # everything else
       {:neuron, "~> 5.0.0"},
       {:pxu_auth0, github: "pixelunion-apps/ex-pxu-auth0", tag: "v0.4.0"}
