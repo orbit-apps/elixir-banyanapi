@@ -1,13 +1,13 @@
 defmodule BanyanAPI.MixProject do
   use Mix.Project
 
-  @version "0.8.0"
+  @version "0.9.0"
 
   def project do
     [
       app: :banyan_api,
       version: @version,
-      elixir: "~> 1.12",
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       dialyzer: [
@@ -28,11 +28,11 @@ defmodule BanyanAPI.MixProject do
   defp deps do
     [
       # Test and Dev
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.2", only: [:dev, :test], runtime: false},
       # everything else
-      {:neuron, "~> 5.0.0"},
-      {:pxu_auth0, github: "pixelunion-apps/ex-pxu-auth0", tag: "v0.4.0"}
+      {:neuron, "~> 5.1"},
+      {:pxu_auth0, github: "pixelunion-apps/ex-pxu-auth0", tag: "v0.5.0"}
     ]
   end
 end
