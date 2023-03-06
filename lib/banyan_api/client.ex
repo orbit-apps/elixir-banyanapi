@@ -23,10 +23,7 @@ defmodule BanyanAPI.Client do
   end
 
   defp log_and_return!({:ok, %{body: %{"errors" => errors}} = response}) do
-    error_string =
-      errors
-      |> Enum.map(&Map.get(&1, "message"))
-      |> Enum.join(" ")
+    error_string = Enum.map_join(errors, " ", &Map.get(&1, "message"))
 
     Logger.error("#{__MODULE__} call errored: #{error_string}")
 
