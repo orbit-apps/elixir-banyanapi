@@ -7,7 +7,7 @@ defmodule BanyanAPI.MixProject do
     [
       app: :banyan_api,
       version: @version,
-      elixir: "~> 1.12",
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       dialyzer: [
