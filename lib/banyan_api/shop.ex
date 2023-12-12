@@ -23,7 +23,7 @@ defmodule BanyanAPI.Shop do
     "zip" => ""
   }
 
-  @spec update(%{access_token: String.t(), settings: map()}) ::
+  @spec update(%{access_token: String.t(), settings: map(), created_date: DateTime.t()}) ::
           {:ok, %Neuron.Response{}} | {:error, any()}
   def update(%{
         access_token: token,
